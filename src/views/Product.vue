@@ -1,4 +1,12 @@
 <template>
+  <v-btn
+    @click="backToCompany"
+    style="position: absolute; margin-left: 10%; margin-top: 1%"
+    prepend-icon="mdi-arrow-left"
+    variant="text"
+    color="grey-darken-2"
+    >Назад</v-btn
+  >
   <v-container v-if="product != null">
     <div class="d-flex justify-end">
       <v-card width="512">
@@ -14,11 +22,13 @@
         <v-card-title>О товаре</v-card-title>
         <v-divider></v-divider>
         <v-card-text>
-          <div v-if="
-            product.description == null ||
-            product.description == undefined ||
-            product.description.length == 0
-          ">
+          <div
+            v-if="
+              product.description == null ||
+              product.description == undefined ||
+              product.description.length == 0
+            "
+          >
             Нет описания
           </div>
           <div v-else class="text-body-1">
@@ -43,7 +53,14 @@
       </v-card>
     </v-container>
     <v-container v-else>
-      <v-btn block variant="flat" size="x-large" color="grey-lighten-4" prepend-icon="mdi-pencil">
+      <v-btn
+        @click="createReview"
+        block
+        variant="flat"
+        size="x-large"
+        color="grey-lighten-4"
+        prepend-icon="mdi-pencil"
+      >
         Написать отзыв
       </v-btn>
       <v-card variant="tonal" class="text-center mt-5">
@@ -68,6 +85,24 @@ export default {
       required: true,
     },
   },
+  methods: {
+    createReview() {
+      this.$router.push({
+        name: "create-review",
+        params: {
+          productId: this.productId,
+        },
+      });
+    },
+    backToCompany() {
+      this.$router.push({
+        name: "company",
+        params: {
+          companyId: this.product.owner.id,
+        },
+      });
+    },
+  },
   data() {
     return {
       product: null,
@@ -75,7 +110,7 @@ export default {
   },
   async mounted() {
     this.product = await CatalogRequests.getProduct(this.productId);
-    console.log(this.product)
+    console.log(this.product);
   },
 };
 </script>

@@ -36,6 +36,12 @@ const routes = [
         component: () => import('@/views/Product.vue'),
         props: true,
       },
+      {
+        path: 'create-review/:productId',
+        name: 'create-review',
+        component: () => import('@/views/CreateReviewPage.vue'),
+        props: true,
+      },
     ],
   },
 ]
